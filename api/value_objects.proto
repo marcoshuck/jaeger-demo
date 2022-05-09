@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package api;
+
+option go_package = "github.com/marcoshuck/api";
+
+message UserID {
+  string id = 1;
+}
+
+message TweetID {
+  string id = 2;
+}
