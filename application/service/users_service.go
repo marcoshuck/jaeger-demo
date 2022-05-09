@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"github.com/marcoshuck/jaeger-demo/api"
+	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/trace"
 )
 
@@ -13,16 +14,22 @@ type UsersV1 interface {
 
 type usersV1 struct {
 	api.UnimplementedUsersServiceServer
-	tracer trace.Tracer
 }
 
 func (u *usersV1) Get(ctx context.Context, id *api.UserID) (*api.User, error) {
-	ctx, span := u.tracer.Start(ctx, "get")
+	span := trace.SpanFromContext(ctx)
 	defer span.End()
 
+	span.SetAttributes(attribute.Key("user_id").String(id.GetId()))
+
+	span.AddEvent("Checking user is valid")
 	if id.GetId() != "test" {
-		return nil, errors.New("user not found")
+		err := errors.New("user not found")
+		span.RecordError(err)
+		return nil, err
 	}
+
+	span.AddEvent("Returning user")
 	return &api.User{
 		Id:          "test",
 		Name:        "Marcos Huck",
@@ -33,8 +40,6 @@ func (u *usersV1) Get(ctx context.Context, id *api.UserID) (*api.User, error) {
 	}, nil
 }
 
-func NewUsersV1(tracer trace.Tracer) UsersV1 {
-	return &usersV1{
-		tracer: tracer,
-	}
+func NewUsersV1() UsersV1 {
+	return &usersV1{}
 }
