@@ -25,7 +25,7 @@ func main() {
 	}
 
 	// If development mode is enabled, use development logger.
-	if os.Getenv("TWEETS_DEVELOPMENT_MODE") == "true" {
+	if os.Getenv("USERS_DEVELOPMENT_MODE") == "true" {
 		logger, err = zap.NewDevelopment()
 		if err != nil {
 			log.Fatalln("Failed to initialize Zap logger:", err)
