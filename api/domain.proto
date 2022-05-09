@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package api;
+
+option go_package = "github.com/marcoshuck/api";
+
+message Tweet {
+  google.protobuf.Timestamp created_at = 1;
+  string id = 2;
+  string text = 3;
+  User user = 4;
+}
+
+message User {
+  string id = 1;
+  string name = 2;
+  string location = 3;
+  string url = 4;
+  string description = 5;
+  bool verified = 6;
+}
