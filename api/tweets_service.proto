@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+import "api/value_objects.proto";
+import "api/domain.proto";
+
+package api;
+
+option go_package = "github.com/marcoshuck/api";
+
+service TweetsService {
+ rpc Get(api.TweetID) returns (api.Tweet) {}
+}
