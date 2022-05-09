@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tweets
+  labels:
+    app: tweets
+    version: v1.0.0
+spec:
+  replicas: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: tweets
+  template:
+    metadata:
+      labels:
+        app: tweets
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "3003"
+    spec:
+      containers:
+        - name: tweets-api
+          image: marcoshuck/tweets:1.0
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: "1"
+            requests:
+              cpu: "0.25"
+          ports:
+            - containerPort: 3031
+              name: "grpc"
+          env:
+            - name: "TWEETS_USERS_URL"
+              value: "default.users"
+            - name: "TWEETS_DEVELOPMENT_MODE"
+              value: "true"
+
