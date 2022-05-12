@@ -5,7 +5,7 @@ import "api/domain.proto";
 
 package api;
 
-option go_package = "github.com/marcoshuck/api";
+option go_package = "github.com/marcoshuck/jaeger-demo/api";
 
 service TweetsService {
  rpc Get(api.TweetID) returns (api.Tweet) {}

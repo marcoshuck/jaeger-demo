@@ -4,7 +4,7 @@ import "google/protobuf/timestamp.proto";
 
 package api;
 
-option go_package = "github.com/marcoshuck/api";
+option go_package = "github.com/marcoshuck/jaeger-demo/api";
 
 message Tweet {
   google.protobuf.Timestamp created_at = 1;
